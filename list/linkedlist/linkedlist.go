@@ -1,6 +1,8 @@
 package linkedlist
 
 import (
+	"bytes"
+	"fmt"
 	"gontainers/container"
 	"gontainers/list"
 )
@@ -26,30 +28,6 @@ func (l *LinkedList[T]) initWithValue(value T) {
 	l.head.prev = l.head
 	l.tail = l.head
 	l.len = 1
-}
-
-func (l *LinkedList[T]) Len() int {
-	return l.len
-}
-
-func (l *LinkedList[T]) IsEmpty() bool {
-	return l.len == 0
-}
-
-func (l *LinkedList[T]) Clear() {
-	l.len = 0
-	l.head = nil
-	l.tail = nil
-}
-
-func (l *LinkedList[T]) Values() []T {
-	// TODO: implement
-	panic("not implemented")
-}
-
-func (l *LinkedList[T]) String() string {
-	// TODO: implement
-	panic("not implemented")
 }
 
 func (l *LinkedList[T]) PushFront(values ...T) {
@@ -204,4 +182,43 @@ func (l *LinkedList[T]) Contains(value T) bool {
 		node = node.next
 	}
 	return false
+}
+
+func (l *LinkedList[T]) Len() int {
+	return l.len
+}
+
+func (l *LinkedList[T]) IsEmpty() bool {
+	return l.len == 0
+}
+
+func (l *LinkedList[T]) Clear() {
+	l.len = 0
+	l.head = nil
+	l.tail = nil
+}
+
+func (l *LinkedList[T]) Values() []T {
+	if l.head == nil {
+		var zeroValue []T
+		return zeroValue
+	}
+	values := make([]T, l.len)
+	node := l.head
+	for i := 0; i < l.len; i++ {
+		values[i] = node.value
+		node = node.next
+	}
+	return values
+}
+
+func (l *LinkedList[T]) String() string {
+	buf := bytes.NewBufferString("[")
+	node := l.head
+	for i := 0; i < l.len-1; i++ {
+		buf.WriteString(fmt.Sprintf("%v", node.value))
+		node = node.next
+	}
+	buf.WriteString(fmt.Sprintf("%v]", node.value))
+	return buf.String()
 }
