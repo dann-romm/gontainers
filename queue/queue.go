@@ -4,12 +4,13 @@ import "gontainers/container"
 
 type Queue[T any] interface {
 	container.Container[T]
+	container.ForwardIterable[T]
 
-	// Enqueue adds an element to the end of the queue
-	Enqueue(values ...T)
+	// Push adds a bunch of elements to the end of the queue
+	Push(values ...T)
 
-	// Dequeue removes the first element from the queue
-	Dequeue() (T, bool)
+	// Pop removes the first element from the queue
+	Pop() (T, bool)
 
 	// Peek returns the first element from the queue
 	Peek() (T, bool)
