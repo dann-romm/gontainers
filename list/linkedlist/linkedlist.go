@@ -212,11 +212,13 @@ func (l *LinkedList[T]) Values() []T {
 	return values
 }
 
+// time complexity: O(n)
+// space complexity: O(n)
 func (l *LinkedList[T]) String() string {
 	buf := bytes.NewBufferString("[")
 	node := l.head
 	for i := 0; i < l.len-1; i++ {
-		buf.WriteString(fmt.Sprintf("%v", node.value))
+		buf.WriteString(fmt.Sprintf("%v ", node.value))
 		node = node.next
 	}
 	buf.WriteString(fmt.Sprintf("%v]", node.value))

@@ -1,6 +1,8 @@
 package unordered_map
 
 import (
+	"bytes"
+	"fmt"
 	"gontainers/container"
 	_map "gontainers/map"
 )
@@ -123,6 +125,22 @@ func (h *HashMap[K, V]) Clear() {
 }
 
 func (h *HashMap[K, V]) String() string {
-	panic("not implemented")
-	// TODO: implement this
+	var mask uint64
+	buf := bytes.NewBufferString("{")
+
+	for _, b := range h.table {
+		for b != nil {
+			mask = (1 << 8) - 1
+			for i := 0; i < 8; i++ {
+				if b.reserved&mask == 1 {
+					buf.WriteString(fmt.Sprintf("%v:%v, ", b.keys[i], b.values[i]))
+				}
+				mask <<= 8
+			}
+			b = b.next
+		}
+	}
+	buf.Truncate(buf.Len() - 2)
+	buf.WriteString("}")
+	return buf.String()
 }
