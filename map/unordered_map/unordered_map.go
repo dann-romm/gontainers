@@ -54,11 +54,9 @@ func (h *HashMap[K, V]) Set(key K, value V) {
 	if b.set(key, value, hash) {
 		h.len++
 		if h.len > h.cap*loadFactorNumerator/loadFactorDenominator {
-			// TODO: rehash here
-			// h.resize()
+			h.resize()
 		}
 	}
-	panic("not implemented")
 }
 
 func (h *HashMap[K, V]) Get(key K) (V, bool) {
@@ -78,14 +76,29 @@ func (h *HashMap[K, V]) Remove(key K) {
 	}
 }
 
+// time complexity: O(n)
+// space complexity: O(n)
 func (h *HashMap[K, V]) resize() {
+	var hash uint64
+	var mask uint64
 	table := newTable[K, V](h.cap * 2)
-	_ = table
+
 	for _, b := range h.table {
-		_ = b
-		// TODO: implement rehash
+		for b != nil {
+			mask = (1 << 8) - 1
+			for i := 0; i < 8; i++ {
+				if b.reserved&mask == 1 {
+					hash = h.hashFunc(b.keys[i])
+					table[hash%uint64(h.cap*2)].set(b.keys[i], b.values[i], hash)
+				}
+				mask <<= 8
+			}
+			b = b.next
+		}
 	}
-	panic("not implemented")
+
+	h.table = table
+	h.cap *= 2
 }
 
 func (h *HashMap[K, V]) Len() int {
