@@ -1,9 +1,5 @@
 package linkedlist
 
-import "gontainers/container"
-
-var _ container.Iterator[int] = (*Node[int])(nil)
-
 type Node[T any] struct {
 	value T
 	next  *Node[T]

@@ -2,6 +2,7 @@ package linkedlist
 
 import "gontainers/container"
 
+// assert Iterator[T] to be a container.Iterator[T]
 var _ container.Iterator[int] = (*Iterator[int])(nil)
 
 type Iterator[T any] struct {
@@ -10,6 +11,9 @@ type Iterator[T any] struct {
 }
 
 func (it *Iterator[T]) Next() container.Iterator[T] {
+	if it.node == nil {
+		return it
+	}
 	if it.isReverse {
 		it.node = it.node.prev
 	} else {
@@ -19,6 +23,9 @@ func (it *Iterator[T]) Next() container.Iterator[T] {
 }
 
 func (it *Iterator[T]) HasNext() bool {
+	if it.node == nil {
+		return false
+	}
 	if it.isReverse {
 		return it.node.prev != nil
 	}
@@ -26,6 +33,10 @@ func (it *Iterator[T]) HasNext() bool {
 }
 
 func (it *Iterator[T]) Value() T {
+	if it.node == nil {
+		var zeroValue T
+		return zeroValue
+	}
 	return it.node.value
 }
 
