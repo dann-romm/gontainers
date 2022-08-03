@@ -45,6 +45,9 @@ type List[T any] interface {
 	// Contains returns true if the list contains the given value
 	Contains(value T) bool
 
+	// At returns the element at the given index
+	At(index int) T
+
 	// // Swap swaps the elements at the given indexes
 	// Swap(index1, index2 int)
 }

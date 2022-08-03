@@ -3,12 +3,8 @@ package linkedlist
 import (
 	"bytes"
 	"fmt"
-	"gontainers/container"
 	"gontainers/list"
 )
-
-// assert LinkedList[T] to be a Container[T]
-var _ container.Container[int] = (*LinkedList[int])(nil)
 
 // assert LinkedList[T] to be a List[T]
 var _ list.List[int] = (*LinkedList[int])(nil)
@@ -168,6 +164,18 @@ func (l *LinkedList[T]) RemoveAt(index int) {
 		node.next.prev = node
 	}
 	l.len--
+}
+
+func (l *LinkedList[T]) At(index int) T {
+	if index < 0 || index >= l.len {
+		var zeroValue T
+		return zeroValue
+	}
+	node := l.head
+	for i := 0; i < index; i++ {
+		node = node.next
+	}
+	return node.value
 }
 
 func (l *LinkedList[T]) Contains(value T) bool {
