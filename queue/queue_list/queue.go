@@ -1,4 +1,4 @@
-package _queue
+package queue_list
 
 import (
 	"gontainers/list/linkedlist"
