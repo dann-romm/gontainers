@@ -2,6 +2,7 @@ package arraylist
 
 import "gontainers/container"
 
+// assert Iterator[T] to be a container.Iterator[T]
 var _ container.Iterator[int] = (*Iterator[int])(nil)
 
 type Iterator[T any] struct {
